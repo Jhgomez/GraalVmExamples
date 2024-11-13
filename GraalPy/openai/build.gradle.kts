@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("org.graalvm.python") version "24.1.1"
 }
 
 group = "org.example"
@@ -7,6 +8,10 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+}
+
+graalPy {
+    packages = setOf("openai==1.54.4")
 }
 
 dependencies {
