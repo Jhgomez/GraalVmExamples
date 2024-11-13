@@ -4,7 +4,7 @@ plugins {
     id("java")
     id("application")
     id("org.graalvm.python") version "24.1.1"
-    id("org.graalvm.buildtools.native") version "0.10.3"
+//    id("org.graalvm.buildtools.native") version "0.10.3"
 }
 
 group = "org.example"
