@@ -140,19 +140,43 @@ unzip the file make sure you set up the `JAVA_HOME` environment variable correct
 sets the variable across all users, or either in `.profile` or `.bashrc` files, it seems to be more common to define it in `.bashrc`, both 
 located inside `/home/<user>` directory. Is usefull to know you can access windows files from the distro, just head `mnt` directory 
 and there you can choose the hard disk you need, in windows is the `C` drive, you can also mount external storage disks.
-I used SDKMAN to install Oracle's `java 21.0.5-graal`. Ubuntu package manager is called APT(Advanced Package Tool) 
+I used SDKMAN to install Oracle's `java 21.0.5-graal`. Ubuntu package manager is called APT(Advanced Package Tool) which interacts
+with "dpkg packaging system"
 
     * In fact the first thing you should do in a distro is update and upgrade its package manager, in our case is APT`
     ```bash
     # updates all packages metadata to know what versions can be installed or upgraded
     sudo apt update or sudo apt-get update
     sudo apt upgrade # upgrade all packages to their latests versions based on the cache/metadata from the package tool database
+    sudo apt-get upgrade <package_name> # upgrade single package
     ```
     
     * Make sure curl, zip, unzip utilities/packages/dependencies are installed in your distro
    ```bash
    sudo apt list --installed # full list of pakcages
    sudo apt list --installed | grep <pakcage_name> # returns packages that matches the name
+   apt-cache search <search term> # finds packages that contains the search term
+   apt-cache pkgnames <search_term> # finds packages that starts with the searc term
+   apt-cache showpkg <package_name>  # shows the package info
+   sudo apt-get install <package_name> # install package latest version automatically
+   sudo apt-get install <package_name> --no-upgrade # if already installed it wont be upgraded to latest version(according to apt database)
+   sudo apt-get install <package_name> --only-upgrade # doesn't install package if it doesn't exist, it will only upgrade it if already installed
+   sudo apt-get install <package_name>=<version_number> # install specific version
+   sudo apt-get remove <package_name> # deletes package but not config files
+   sudo apt-get purge <package_name> # deletes package and its config files
+   sudo apt-get clean # clears apt cache
+   sudo apt-get autoclean # clears packages files with newer versions, meaning they won't be used anymore
+   sudo apt-get autoremove # removes dependencies of packages that were unistalled
     ```
    
-    * 
+    * install SDKMAN
+   ```bash
+   curl -s "https://get.sdkman.io" | bash
+    ```
+   
+   * After installing SDKMAN, you might need to run `source .bashrc` to refresh the shell and be
+   able to install Oracle's Java 21 GraalVm using SDKMAN, `JAVA_HOME` is set automatically
+   ```bash
+   sdk install java 21.0.5-graal
+   ```
+
