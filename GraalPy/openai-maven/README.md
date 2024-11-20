@@ -1,9 +1,3 @@
-wsl --list --online : returns a list of valid distributions that can be installed
-wsl -l -v : shows a list of installed distributions with its version
-wsl -d [distribution] : run the indicated distribution
-wsl --terminate [linux distro name] : terminates indicated distro
-wsl --shutdown  :  terminates all running distributions and the WSL2 lightweight utility virtual machine
-
 ## Description
 
 This example runs Python packages that uses native extension, you can see a guide [here](https://github.com/graalvm/graal-languages-demos/blob/main/graalpy/graalpy-native-extensions-guide/README.md), 
@@ -34,7 +28,6 @@ you should use gradle wrapper, this would make it easier for other users running
 
 
 3. Configure your project's gradle file, 
-
 
 ### Using Maven
 If you need here is a [Maven cheat sheet](https://medium.com/@TimvanBaarsen/maven-cheat-sheet-45942d8c0b86)
@@ -97,7 +90,7 @@ add a plugin that will allow us to import Python packages as if we were using `p
 ```
 
 #### Using Gradle
-In the projects gradle file:
+In the project's gradle file:
 
  ```kts
 plugins {
@@ -116,3 +109,31 @@ dependencies {
     implementation("org.graalvm.polyglot:python:24.1.1")
 }
  ```
+### Using Python Packages That Use Native Extensions
+It was indicated in the requirements that a C compiler is needed, in my case I will show how to set up GCC in Windows either
+by using the WSL or , I did it on Windows 11 build 22631.4460.
+
+#### Using WSL(Windows Subsystem for Linux)
+1. Install WSL. Checkout the [installation guide](https://learn.microsoft.com/en-us/windows/wsl/install). However, all the commands you may need
+are the bellow, alternatively you can download "Ubuntu" app from "Microsoft Store" and just run so Ubuntu WSL is installed on
+your computer, set up your user name and password from there.
+
+```bash
+  wsl install # enables/set up all features necessary to run WSL
+  wsl install -d <distro_name>  # installs the indicated distro
+  wsl --list --online # returns a list of valid distributions that can be installed
+  wsl -l -v # shows a list of installed distributions with its version
+  wsl -d <distro_name> # run the indicated distribution
+  wsl --terminate <distro_name> # terminates indicated distro
+  wsl --shutdown  # terminates all running distributions and the WSL2 lightweight utility virtual machine
+```
+
+2. You can share Windows environment variables using [WSLENV](https://learn.microsoft.com/en-us/windows/wsl/filesystems#share-environment-variables-between-windows-and-wsl-with-wslenv) 
+this will enable you to call the variable from both operating systems, if it points to an executable you could run commands using that executable, but 
+the limitation in our case is that when running our code from IntelliJ using the "remote development"/"connect to WSL" option
+the JDK won't be recognized by the IDE, and as stated in [IntelliJ´s instructions](https://www.jetbrains.com/help/idea/how-to-use-wsl-development-environment-in-product.html#create_project_for_wsl)
+we need to install the JDK in our linux distro. meaning in this case sharing a variable won't be good enough. So [Install GraalVm](https://www.graalvm.org/latest/getting-started/linux/), the easiest way to 
+do this is using SDKMAN, just make sure to install all other utilities SDKMAN needs to run. If you choose to do it manually after you
+unzip the file make sure you set up the `JAVA_HOME` environment variable correctly, this can be done either in `etc/environmet` file which
+sets the variable accross all users, or either in `.profile` or `.bashrc` files, both located inside `/home/<user>` directory. I
+used SDKMAN 
