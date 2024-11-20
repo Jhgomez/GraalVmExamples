@@ -110,13 +110,14 @@ dependencies {
 }
  ```
 ### Using Python Packages That Use Native Extensions
-It was indicated in the requirements that a C compiler is needed, in my case I will show how to set up GCC in Windows either
-by using the WSL or , I did it on Windows 11 build 22631.4460.
+It was indicated in the requirements that a C compiler is needed, for example GCC, Cargo, etc, in my case I will show 
+how to set up GCC in Windows either in Ubuntu through WSL or TODO(GCC compiler), I did it on Windows 11 build 22631.4460.
 
 #### Using WSL(Windows Subsystem for Linux)
 1. Install WSL. Checkout the [installation guide](https://learn.microsoft.com/en-us/windows/wsl/install). However, all the commands you may need
 are the bellow, alternatively you can download "Ubuntu" app from "Microsoft Store" and just run so Ubuntu WSL is installed on
-your computer, set up your user name and password from there.
+your computer, at installation you will be able to set up your user name and password, this is important. Uninstalling and 
+reinstalling or installing is very straight forward and easy.
 
 ```bash
   wsl install # enables/set up all features necessary to run WSL
@@ -126,6 +127,7 @@ your computer, set up your user name and password from there.
   wsl -d <distro_name> # run the indicated distribution
   wsl --terminate <distro_name> # terminates indicated distro
   wsl --shutdown  # terminates all running distributions and the WSL2 lightweight utility virtual machine
+  wsl --unregister  <distro_name># uninstalls the indicated distro 
 ```
 
 2. You can share Windows environment variables using [WSLENV](https://learn.microsoft.com/en-us/windows/wsl/filesystems#share-environment-variables-between-windows-and-wsl-with-wslenv) 
@@ -135,5 +137,22 @@ the JDK won't be recognized by the IDE, and as stated in [IntelliJ´s instructio
 we need to install the JDK in our linux distro. meaning in this case sharing a variable won't be good enough. So [Install GraalVm](https://www.graalvm.org/latest/getting-started/linux/), the easiest way to 
 do this is using SDKMAN, just make sure to install all other utilities SDKMAN needs to run. If you choose to do it manually after you
 unzip the file make sure you set up the `JAVA_HOME` environment variable correctly, this can be done either in `etc/environmet` file which
-sets the variable accross all users, or either in `.profile` or `.bashrc` files, both located inside `/home/<user>` directory. I
-used SDKMAN 
+sets the variable across all users, or either in `.profile` or `.bashrc` files, it seems to be more common to define it in `.bashrc`, both 
+located inside `/home/<user>` directory. Is usefull to know you can access windows files from the distro, just head `mnt` directory 
+and there you can choose the hard disk you need, in windows is the `C` drive, you can also mount external storage disks.
+I used SDKMAN to install Oracle's `java 21.0.5-graal`. Ubuntu package manager is called APT(Advanced Package Tool) 
+
+    * In fact the first thing you should do in a distro is update and upgrade its package manager, in our case is APT`
+    ```bash
+    # updates all packages metadata to know what versions can be installed or upgraded
+    sudo apt update or sudo apt-get update
+    sudo apt upgrade # upgrade all packages to their latests versions based on the cache/metadata from the package tool database
+    ```
+    
+    * Make sure curl, zip, unzip utilities/packages/dependencies are installed in your distro
+   ```bash
+   sudo apt list --installed # full list of pakcages
+   sudo apt list --installed | grep <pakcage_name> # returns packages that matches the name
+    ```
+   
+    * 
