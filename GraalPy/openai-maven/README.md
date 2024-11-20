@@ -3,10 +3,15 @@
 This example runs Python packages that uses native extension, you can see a guide [here](https://github.com/graalvm/graal-languages-demos/blob/main/graalpy/graalpy-native-extensions-guide/README.md), 
 this application takes a text entry passed to the Java main method as an argument and then pass it the OPENAI API using GraalPy,
 the code in this example is pretty much the code in the [official OPENAI API documentation](https://platform.openai.com/docs/quickstart/create-and-export-an-api-key).
-check the [implementation details](https://platform.openai.com/docs/quickstart/create-and-export-an-api-key)
 
-However the implementations details in short are the following, the Python code that is embedded in Java has to return a function
-which then is mapped using a Java interface
+Check the [GraalPy implementation details](https://platform.openai.com/docs/quickstart/create-and-export-an-api-key). The
+implementations details in short are the following, the Python code that is embedded in Java has to return a function
+which is mapped using a Java interface, in this case is the functional interface which method takes a string and
+returns another interface tha is also mapped, this interface has a method that returns a list of objects of another interface, the list in 
+python is a property and not a function as opposed to our code, this is because it has to be mapped, the objects in the list are also mapped
+to an interface that has method called `message` that in python is actually a property of type string
+and finally this message method return another object that is mapped using an interface that is basically wrapping a string, 
+this is expressed in the form of a method inside the last interface that returns a string, all this might sound confusing, check the code.
 
 ## Development Environment Requirements
 
@@ -14,9 +19,9 @@ As you can see the guide indicate the requirements are:
 
 * An IDE or text editor, I used IntelliJ IDEA 2024.3 ultimate edition
 * A supported JDK, preferably the latest GraalVM JDK, I used Oracle GraalVM Java-21
-* a C compiler toolchain (e.g., GCC, cargo)
+* a C compiler toolchain (e.g., GCC, Cargo)
 
-## Development Environment Set up
+## Project Setup
 
 ### Using Gradle
 
@@ -41,6 +46,9 @@ generated when using the archetype.
 3. To be able to execute Java applications from the CLI without packing the app in a JAR file add the group: "org.codehaus.mojo" 
 artifact: "exec-maven-plugin" plugin, make sure to declare the right main class package, however be aware that it is possible to run apps 
 in CLI using Maven without this plugin so you could skip it if you want
+
+4. As a best practice [add maven wrapper](https://maven.apache.org/wrapper/), the wrapper is just a way to help other devs 
+to run maven commands in the CLI without having to install maven. So after this run maven commands using the wrapper, for example:`./mvnw install`
 
 ### Add GraalPy Dependencies
 As described in [GraalPy Getting Started documentation](https://www.graalvm.org/python/#getting-started), we will also 
@@ -109,12 +117,15 @@ dependencies {
     implementation("org.graalvm.polyglot:python:24.1.1")
 }
  ```
+
+## Development Environment Set up
+
 ### Using Python Packages That Use Native Extensions
 It was indicated in the requirements that a C compiler is needed, for example GCC, Cargo, etc, in my case I will show 
 how to set up GCC in Windows either in Ubuntu through WSL or TODO(GCC compiler), I did it on Windows 11 build 22631.4460.
 
 #### Using WSL(Windows Subsystem for Linux)
-1. Install WSL. Checkout the [installation guide](https://learn.microsoft.com/en-us/windows/wsl/install). However, all the commands you may need
+1. Install WSL, the default distro is Ubuntu. Checkout the [installation guide](https://learn.microsoft.com/en-us/windows/wsl/install). However, all the commands you may need
 are the bellow, alternatively you can download "Ubuntu" app from "Microsoft Store" and just run so Ubuntu WSL is installed on
 your computer, at installation you will be able to set up your user name and password, this is important. Uninstalling and 
 reinstalling or installing is very straight forward and easy.
@@ -175,8 +186,39 @@ with "dpkg packaging system"
     ```
    
    * After installing SDKMAN, you might need to run `source .bashrc` to refresh the shell and be
-   able to install Oracle's Java 21 GraalVm using SDKMAN, `JAVA_HOME` is set automatically
+   able to install Oracle's Java 21 GraalVm JDK using SDKMAN, `JAVA_HOME` is set automatically
    ```bash
    sdk install java 21.0.5-graal
    ```
+3. No need to install GCC as it Ubuntu has it installed by default
+
+#### Using GCC for windows (TODO)
+
+## Run the App
+Be aware that on windows tha packages with native extensions are always compiled, in the future this might change and
+the compiled code will be instead downloaded from a repo which should be faster
+
+### Using Gradle
+
+
+
+### Using Maven
+
+Use the wrapper to run maven commands, if you install maven in your computer and run commands using the version installed in your computer
+which is available in the `PATH` env variable make sure it is the same version as the wrapper. 
+
+Command without using `exec-maven-plugin`(test it before include this info)
+
+```bash
+./mvnw exec:java -Dexec.mainClass="okik.tech.Main" -Dexec.args="what is GraalPy?"
+mvn exec:java -Dexec.mainClass="okik.tech.Main" -Dexec.args="what is GraalPy?"
+```
+
+Using the plugin
+
+```bash
+```bash
+./mvnw exec:java -Dexec.args="what is GraalPy?"
+```
+```
 
