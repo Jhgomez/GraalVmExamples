@@ -17,7 +17,7 @@ this is expressed in the form of a method inside the last interface that returns
 
 As you can see the guide indicate the requirements are:
 
-* An IDE or text editor, I used IntelliJ IDEA 2024.3 ultimate edition
+* An IDE or text editor, I used IntelliJ IDEA 2024.3 ultimate edition here you can leverage [language injections](https://www.jetbrains.com/help/idea/using-language-injections.html#use-language-injection-comments)
 * A supported JDK, preferably the latest GraalVM JDK, I used Oracle GraalVM Java-21
 * a C compiler toolchain (e.g., GCC, Cargo)
 
@@ -55,6 +55,8 @@ As described in [GraalPy Getting Started documentation](https://www.graalvm.org/
 add a plugin that will allow us to import Python packages as if we were using `pip install` command
 
 #### Using Maven
+Add the following configurations to your `pom.xml` file. Note we need to add a dependency to `exec-maven-plugin` which graalVm needs to execute the application
+on the console.
 
 ```xml
 <project>
@@ -70,6 +72,11 @@ add a plugin that will allow us to import Python packages as if we were using `p
           <version>24.1.1</version>
           <type>pom</type>
         </dependency>
+       <dependency>
+          <groupId>org.graalvm.python</groupId>
+          <artifactId>python-embedding</artifactId>
+          <version>24.1.1</version>
+       </dependency>
     </dependencies>
     
     <build>
@@ -93,6 +100,24 @@ add a plugin that will allow us to import Python packages as if we were using `p
                 </executions>
             </plugin>
         </plugins>
+
+       <pluginManagement>
+          <plugin>
+             <groupId>org.codehaus.mojo</groupId>
+             <artifactId>exec-maven-plugin</artifactId>
+             <version>1.2.1</version>
+             <executions>
+                <execution>
+                   <goals>
+                      <goal>java</goal>
+                   </goals>
+                </execution>
+             </executions>
+             <configuration>
+                <mainClass>okik.tech.Main</mainClass>
+             </configuration>
+          </plugin>
+       </pluginManagement>
     </build>
 </project>
 ```
@@ -207,18 +232,21 @@ the compiled code will be instead downloaded from a repo which should be faster
 Use the wrapper to run maven commands, if you install maven in your computer and run commands using the version installed in your computer
 which is available in the `PATH` env variable make sure it is the same version as the wrapper. 
 
-Command without using `exec-maven-plugin`(test it before include this info)
+Depending on your set up you could run either of following or both, if you only have the
+maven wrapper that is provided to you by a project like the one I set up you can use the
+first command, if you only have maven installed you only use the later, if you have both
+on your computer, you can use either or.
 
 ```bash
-./mvnw exec:java -Dexec.mainClass="okik.tech.Main" -Dexec.args="what is GraalPy?"
-mvn exec:java -Dexec.mainClass="okik.tech.Main" -Dexec.args="what is GraalPy?"
+./mvnw exec:java -Dexec.args="'what is GraalPy?'" -Dexec.mainClass="okik.tech.Main"
+mvn exec:java -Dexec.args="'what is GraalPy?'" -Dexec.mainClass="okik.tech.Main"
 ```
-
-Using the plugin
+If you're using `exec-maven-plugin` and already defined main class in the plugin
+configurations you can ommit that argument
 
 ```bash
 ```bash
-./mvnw exec:java -Dexec.args="what is GraalPy?"
+./mvnw exec:java -Dexec.args="'what is GraalPy?'"
 ```
 ```
 
