@@ -7,7 +7,7 @@ plugins {
 //    id("org.graalvm.buildtools.native") version "0.10.3"
 }
 
-group = "org.example"
+group = "okik.tech"
 version = "1.0-SNAPSHOT"
 
 repositories {
