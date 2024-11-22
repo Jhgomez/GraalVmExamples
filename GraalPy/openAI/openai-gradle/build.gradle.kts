@@ -14,6 +14,10 @@ repositories {
     mavenCentral()
 }
 
+application {
+    mainClass = "okik.tech.Main"
+}
+
 graalPy {
 
     packages = setOf(
@@ -58,7 +62,7 @@ graalPy {
         //    error: metadata-generation-failed
 
         // TODO try new versions of "org.graalvm.python" when available
-        "openai==0.27.4",
+        "openai==1.47.1",
         "pydantic==2.4.2",
         // uses native extensions, openai uses this
         "pydantic_core==2.10.1",
