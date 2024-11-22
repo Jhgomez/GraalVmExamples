@@ -8,7 +8,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        String input = args[0] != null ? args[0] : "how far is the sun from earth?";
+        String input = args.length > 0 ? args[0] : "how far is the sun from earth?";
 
         try (Context context = GraalPyResources.createContext()) {
 
