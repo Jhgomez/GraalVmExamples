@@ -4,9 +4,7 @@ to follow the instructions in the "Development Environment Setup" section.
 
 ## Project Setup
 
-1. [Install gradle](https://gradle.org/install/), if your downloading/cloning the repo you can skip this and next step as
-the gradle wrapper is already in this directoy so no need to install, the wrapper is used to execute
-gradle commands in the CLI
+1. [Install gradle](https://gradle.org/install/)
 
 
 2. Initialize a Gradle project either using IntelliJ or the [documentation](https://docs.gradle.org/current/userguide/part1_gradle_init.html),
@@ -44,6 +42,18 @@ enables us to declare python packages dependencies. Also include the Python poly
 ```
 
 ## Run the application
+If you are just cloning/downloading this repo you can run Gradle tasks using the wrapper as it
+is already available in this directory. Be aware that on windows the packages with native extensions are always compiled, in the future this might change and
+the compiled code will be instead downloaded from a repo which should be faster.
+
 ```bash
 ./gradlew run --args="'what is GraalVm?'"
+```
+
+If you've installed Gradle on your computer and run commands using the version installed on your computer
+which is available in the `PATH` env variable make sure it is the same version as the wrapper. This would enable 
+you to run it with the following command:
+
+```bash
+./gradle run --args="'what is GraalVm?'"
 ```
