@@ -1,6 +1,6 @@
 ## Description
 
-This example runs Python packages that uses native extension, you can see a guide [here](https://github.com/graalvm/graal-languages-demos/blob/main/graalpy/graalpy-native-extensions-guide/README.md), 
+This example runs Python packages that uses native extension, this showcase how we can use OPENAI pythong package, you can see a guide [here](https://github.com/graalvm/graal-languages-demos/blob/main/graalpy/graalpy-native-extensions-guide/README.md), 
 this application takes a text entry passed to the Java main method as an argument and then pass it the OPENAI API using GraalPy,
 the code in this example is pretty much the code in the [official OPENAI API documentation](https://platform.openai.com/docs/quickstart/create-and-export-an-api-key).
 
@@ -23,16 +23,7 @@ As you can see the guide indicate the requirements are:
 
 ## Project Setup
 
-### Using Gradle
 
-1. [Install gradle](https://gradle.org/install/)
-
-
-2. Initialize a gradle project either using IntelliJ or the [documentation](https://docs.gradle.org/current/userguide/part1_gradle_init.html),
-you should use gradle wrapper, this would make it easier for other users running your code
-
-
-3. Configure your project's gradle file, 
 
 ### Using Maven
 If you need here is a [Maven cheat sheet](https://medium.com/@TimvanBaarsen/maven-cheat-sheet-45942d8c0b86)
@@ -122,28 +113,7 @@ on the console.
 </project>
 ```
 
-#### Using Gradle
-In the project's gradle file:
-
- ```kts
-plugins {
-    id("java")          // java apps needs this
-    id("application")   // to be able to run app in CLI
-    id("org.graalvm.python") version "24.1.1"
-}
-
-graalPy {
-    // collection of python packages
-    packages = setOf("pyfiglet==1.0.2")
-}
-
-dependencies {
-    implementation("org.graalvm.polyglot:polyglot:24.1.1")
-    implementation("org.graalvm.polyglot:python:24.1.1")
-}
- ```
-
-## Development Environment Set up
+## Development Environment Setup
 
 ### Using Python Packages That Use Native Extensions
 It was indicated in the requirements that a C compiler is needed, for example GCC, Cargo, etc, in my case I will show 
@@ -222,10 +192,6 @@ with "dpkg packaging system"
 ## Run the App
 Be aware that on windows tha packages with native extensions are always compiled, in the future this might change and
 the compiled code will be instead downloaded from a repo which should be faster
-
-### Using Gradle
-
-
 
 ### Using Maven
 
