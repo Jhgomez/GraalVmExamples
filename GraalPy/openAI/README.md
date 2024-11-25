@@ -26,7 +26,7 @@ As you can see the guide indicate the requirements are:
 ### Using Python Packages That Use Native Extensions
 It was indicated in the requirements that a C compiler is needed, for example GCC, Cargo, etc, in my case I used 
 Ubuntu through WSL which comes with the GCC installed by default but I will show how to install GCC compiler directly
-on Windows if you don't want to use WSL TODO(GCC compiler),
+on Windows if you don't want to use WSL.
 
 #### Using WSL(Windows Subsystem for Linux)
 1. Install WSL, I did it on Windows 11 build 22631.4460. The default distro is Ubuntu. Checkout the [installation guide](https://learn.microsoft.com/en-us/windows/wsl/install). However, all the commands you may need
@@ -94,10 +94,23 @@ with "dpkg packaging system"
    ```bash
    sdk install java 21.0.5-graal
    ```
-3. No need to install GCC as it Ubuntu has it installed by default
+3. Install GCC `sudo apt-get install`
 
 #### Using GCC for windows (TODO)
+Installing GCC is just not enough 
 As indicated in the [GCC documentation](https://gcc.gnu.org/install/specific.html#windows) for Windows 11
-since it supports x86_64 only or x64 for short we know we have to go with the option in that section which is
-installing [mingw](https://www.mingw-w64.org/downloads/)
+since it supports x86_64 or x64 for short only we know we have to go with the option in that section which is
+installing [mingw](https://www.mingw-w64.org/downloads/) here you have different options you can either use Cygwin,
+LLVM-MinGW, MinGW-W64-builds, w64devkit, WinLibs.com, I choose [Cygwin](https://cygwin.com/install.html), just download
+"setup-x86_64.exe" and run it. Choose the following packages
+
+![packages](./packages.png)
+
+Then let it resolve some dependencies
+
+![resolve](resolveDependencies.png)
+
+Then confirm any dialog and let it download the binaries.
+
+
 
