@@ -21,7 +21,6 @@ public class Main {
                     // languages=python
                     """
                         import qrcode
-                        # from qrcode.image.pure import PyPNGImage
                         from qrcode.image.svg import SvgPathFillImage
     
                         def make_qrcode(text_info):
