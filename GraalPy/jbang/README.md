@@ -38,7 +38,14 @@ not required that we set this variable up manually so we are just using this to 
 customize the venv, the [python documentation](https://docs.python.org/3/using/cmdline.html#environment-variables) can
 explain more about this env variable.
 
-chmod +x helloworld.java
-./helloworld.java jbang!
+3. I copied [this example](https://github.com/graalvm/graal-languages-demos/tree/main/graalpy/graalpy-native-extensions-guide#41-dependency-configuration), 
+wrap it into a function, set up a different factory to produce an SVG file and return it.
 
-jbang helloworld.java
+4. You have to abstract the Python `qrcode` library classes and methods you want to use into
+Java interfaces for that you should know what methods classes you need, so go either through 
+the code in [their repo](https://github.com/lincolnloop/python-qrcode) or I use PyCharm, create a 
+pure Python project, install the package I need, write the code there and using the indexing this
+IDE provide, navigate through the package to learn the structure and be able to abstract the code
+I need. In my case I'm passing the info the QR code will return when scanning, creat an SVG and
+save it in the location as where the `.java` file is located.
+
