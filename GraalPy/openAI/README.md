@@ -96,21 +96,24 @@ with "dpkg packaging system"
    ```
 3. Install GCC `sudo apt-get install`
 
-#### Using GCC for windows (TODO)
-Installing GCC is just not enough 
-As indicated in the [GCC documentation](https://gcc.gnu.org/install/specific.html#windows) for Windows 11
+#### Using GCC and Cargo In Windows(Rust compiler) 
+1. As indicated in the [GCC documentation](https://gcc.gnu.org/install/specific.html#windows) for Windows 11
 since it supports x86_64 or x64 for short only we know we have to go with the option in that section which is
 installing [mingw](https://www.mingw-w64.org/downloads/) here you have different options you can either use Cygwin,
 LLVM-MinGW, MinGW-W64-builds, w64devkit, WinLibs.com, I choose [Cygwin](https://cygwin.com/install.html), just download
 "setup-x86_64.exe" and run it. Choose the following packages
 
-![packages](./packages.png)
+   * ![](./packages.png)
 
-Then let it resolve some dependencies
+   Then let it resolve some dependencies
 
-![resolve](resolveDependencies.png)
+   * ![](resolveDependencies.png)
 
-Then confirm any dialog and let it download the binaries.
+   Then confirm any dialog and let it download the binaries.
 
 
+2. Cargo, the Rust compiler, is needed according to a message I get when compiling the app. I selected [x86_64-pc-windows-msvc](https://forge.rust-lang.org/infra/other-installation-methods.html) in the 
+official documentation but when you you try to install it you're informed that some you need Windows APIS from Rust visual C++ dependencies, 
+basically you have to install visual studio, I used community edition, in the installation flow make sure you install
+"Desktop development with C++". Check this [guide](https://learn.microsoft.com/en-us/windows/dev-environment/rust/setup) if you need to install these dependencies.
 
