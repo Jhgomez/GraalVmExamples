@@ -1,8 +1,8 @@
 //DEPS org.graalvm.python:python-language:24.1.1
 //DEPS org.graalvm.python:python-resources:24.1.1
 //DEPS org.graalvm.python:python-launcher:24.1.1
-//DEPS org.graalvm.python:python-embedding:24.1.1
 //DEPS org.graalvm.python:python-embedding-tools:24.1.1
+//DEPS org.graalvm.python:python-embedding:24.1.1
 //PIP qrcode==8.0
 
 import org.graalvm.python.embedding.utils.GraalPyResources;

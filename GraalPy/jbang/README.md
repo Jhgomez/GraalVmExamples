@@ -49,3 +49,13 @@ IDE provide, navigate through the package to learn the structure and be able to 
 I need. In my case I'm passing the info the QR code will return when scanning, creat an SVG and
 save it in the location as where the `.java` file is located.
 
+## Run The Application
+
+You have can call jbang using different sintaxes. Each word separated by a space, after the Java file name, is an argument
+
+   ```bash
+   jbang run Main.java linkYouWantToShareAsArgument
+   jbang --verbose run Main.java linkYouWantToShareAsArgument
+   jbang Main.java linkYouWantToShareAsArgument
+   jbang --verbose Main.java linkYouWantToShareAsArgument
+   ```
