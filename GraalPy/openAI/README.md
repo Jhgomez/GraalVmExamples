@@ -97,8 +97,8 @@ with "dpkg packaging system"
 3. Install GCC `sudo apt-get install`
 
 #### Using GCC and Cargo In Windows(Rust compiler) 
-1. As indicated in the [GCC documentation](https://gcc.gnu.org/install/specific.html#windows) for Windows 11
-since it supports x86_64 or x64 for short only we know we have to go with the option in that section which is
+1. As indicated in the [GCC documentation](https://gcc.gnu.org/install/specific.html#windows), since Windows 11 supports x86_64(x64 for short)
+architecture only we know we have to go with the option in that section which is
 installing [mingw](https://www.mingw-w64.org/downloads/) here you have different options you can either use Cygwin,
 LLVM-MinGW, MinGW-W64-builds, w64devkit, WinLibs.com, I choose [Cygwin](https://cygwin.com/install.html), just download
 "setup-x86_64.exe" and run it. Choose the following packages
@@ -117,3 +117,7 @@ official documentation but when you you try to install it you're informed that s
 basically you have to install visual studio, I used community edition, in the installation flow make sure you install
 "Desktop development with C++". Check this [guide](https://learn.microsoft.com/en-us/windows/dev-environment/rust/setup) if you need to install these dependencies.
 
+
+IMPORTANT: I opened an issues because, at least in windows, some linker fails to link
+the compiled Python native extension. Check the issue [here](https://github.com/oracle/graalpython/issues/456). So
+for now we should continue using a Linux set up
