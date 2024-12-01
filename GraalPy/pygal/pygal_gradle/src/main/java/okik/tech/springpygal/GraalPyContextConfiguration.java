@@ -17,7 +17,7 @@ public class GraalPyContextConfiguration {
         return new GraalPyContext(context);
     }
 
-    record GraalPyContext(Context context) {
+    public record GraalPyContext(Context context) {
         public Value eval(String sourceCode) {
             return context.eval("ptyhon", sourceCode);
         }
