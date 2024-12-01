@@ -13,7 +13,7 @@ public class PygalController {
         this.purePythonService = purePythonService;
     }
 
-    @GetMapping("/purePython")
+    @GetMapping("/purepython")
     public String purePython() {
         return purePythonService.renderChart();
     }

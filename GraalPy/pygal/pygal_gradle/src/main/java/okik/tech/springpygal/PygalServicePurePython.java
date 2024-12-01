@@ -22,7 +22,7 @@ public class PygalServicePurePython implements PygalService {
                 xy_chart.add('x = -1', [(-1, -5), (-1, 5)])
                 xy_chart.add('y = 1',  [(-5, 1), (5, 1)])
                 xy_chart.add('y = -1', [(-5, -1), (5, -1)])
-                xy_chart.render().decode
+                xy_chart.render().decode()
                 """
         ).toString();
     }
