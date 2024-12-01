@@ -17,6 +17,12 @@ java {
 	}
 }
 
+graalPy {
+	packages = setOf(
+		"pygal==3.0.5"
+	)
+}
+
 repositories {
 	mavenCentral()
 }
