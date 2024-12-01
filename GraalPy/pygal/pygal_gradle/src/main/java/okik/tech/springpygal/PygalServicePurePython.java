@@ -15,7 +15,7 @@ public class PygalServicePurePython implements PygalService {
                 import pygal
                 
                 xy_chart = pygal.XY()
-                xy_chart.title = 'XY Cosinus'
+                xy_chart.title = 'XY with GraalPy'
                 xy_chart.add('x = cos(y)', [(cos(x / 10.), x / 10.) for x in range(-50, 50, 5)])
                 xy_chart.add('y = cos(x)', [(x / 10., cos(x / 10.)) for x in range(-50, 50, 5)])
                 xy_chart.add('x = 1',  [(1, -5), (1, 5)])
@@ -24,7 +24,7 @@ public class PygalServicePurePython implements PygalService {
                 xy_chart.add('y = -1', [(-5, -1), (5, -1)])
                 xy_chart.render().decode
                 """
-        ).asString();
+        ).toString();
     }
 
     @Override
