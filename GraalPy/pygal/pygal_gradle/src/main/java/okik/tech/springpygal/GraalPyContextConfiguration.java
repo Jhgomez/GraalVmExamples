@@ -19,11 +19,11 @@ public class GraalPyContextConfiguration {
 
     public record GraalPyContext(Context context) {
         public Value eval(String sourceCode) {
-            return context.eval("ptyhon", sourceCode);
+            return context.eval("python", sourceCode);
         }
 
         public void close() {
-            context.close();
+            context.close(true);
         }
     }
 }
