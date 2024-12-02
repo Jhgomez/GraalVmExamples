@@ -12,7 +12,56 @@ public class PygalServiceMixed implements PygalService {
 
     public PygalServiceMixed(GraalPyContext context) {
         ;
-
+        List<XYLine> values = List.of(
+                new XYLine(
+                        "x = cos(y)",
+                        DoubleStream
+                                .iterate(-50, d -> d + 5)
+                                .mapToObj(i -> new double[]{Math.cos(i / 10), i / 10})
+                                .limit(20)
+                                .toArray(double[][]::new)
+                ),
+                new XYLine(
+                        "y = cos(x)",
+                        DoubleStream
+                                .iterate(-50, d -> d + 5)
+                                .mapToObj(d -> new double[]{d / 10, Math.cos(d / 10)})
+                                .limit(20)
+                                .toArray(double[][]::new)
+                ),
+                new XYLine(
+                        "x = 1",
+                        DoubleStream
+                                .iterate(-5, d -> d + 10)
+                                .mapToObj(d -> new double[]{1, d})
+                                .limit(2)
+                                .toArray(double[][]::new)
+                ),
+                new XYLine(
+                        "x = -1",
+                        DoubleStream
+                                .iterate(-5, d -> d + 10)
+                                .mapToObj(d -> new double[]{-1, d})
+                                .limit(2)
+                                .toArray(double[][]::new)
+                ),
+                new XYLine(
+                        "y = 1",
+                        DoubleStream
+                                .iterate(-5, d -> d + 10)
+                                .mapToObj(d -> new double[]{d, 1})
+                                .limit(2)
+                                .toArray(double[][]::new)
+                ),
+                new XYLine(
+                        "y = -1",
+                        DoubleStream
+                                .iterate(-5, d -> d + 10)
+                                .mapToObj(d -> new double[]{d, -1})
+                                .limit(2)
+                                .toArray(double[][]::new)
+                )
+        );
 
         Render render = context.eval(
                 // language=python
@@ -29,6 +78,9 @@ public class PygalServiceMixed implements PygalService {
                     render_xy_chart
                     """).as(Render.class);
 
+        pythonGeneratedSvg = render.renderChart(
+                values
+        );
     }
 
     public record XYLine(String tag, double[][] values) {}
