@@ -68,9 +68,9 @@ public class PygalServiceMixed implements PygalService {
                 """
                     import pygal
                     
-                    def render_xy_chart(values):
+                    def render_xy_chart(title, values):
                         xy_chart = pygal.XY()
-                        xy_chart.title = "XY with GraalPy"
+                        xy_chart.title = title
                         for value in values:
                             xy_chart.add(value.tag(), value.values())
                         return xy_chart.render().decode()
@@ -78,15 +78,13 @@ public class PygalServiceMixed implements PygalService {
                     render_xy_chart
                     """).as(Render.class);
 
-        pythonGeneratedSvg = render.renderChart(
-                values
-        );
+        pythonGeneratedSvg = render.renderChart("XY with GraalPy", values);
     }
 
     public record XYLine(String tag, double[][] values) {}
 
     private interface Render {
-        String renderChart(List<XYLine> lines);
+        String renderChart(String title, List<XYLine> lines);
     }
 
     @Override
