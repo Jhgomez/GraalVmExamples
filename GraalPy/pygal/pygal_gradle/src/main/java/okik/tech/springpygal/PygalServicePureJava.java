@@ -4,7 +4,6 @@ import okik.tech.springpygal.GraalPyContextConfiguration.GraalPyContext;
 import org.graalvm.polyglot.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
 import java.util.stream.DoubleStream;
 
 @Service
@@ -73,8 +72,7 @@ public class PygalServicePureJava implements PygalService {
                         .toArray(double[][]::new)
         );
 
-        byte[] decodedBytes = Base64.getDecoder().decode(chart.render());
-        pythonGeneratedSvg = new String(decodedBytes);
+        pythonGeneratedSvg = chart.render().decode();
     }
 
     public interface Pygal {
@@ -88,7 +86,11 @@ public class PygalServicePureJava implements PygalService {
 
         void add(String tag, double[][] values);
 
-        String render();
+        BytesStream render();
+    }
+
+    public interface BytesStream {
+        String decode();
     }
 
     @Override
