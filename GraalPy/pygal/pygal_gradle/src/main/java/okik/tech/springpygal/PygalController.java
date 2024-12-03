@@ -10,13 +10,16 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public class PygalController {
     private final PygalServicePurePython servicePurePython;
     private final PygalServiceMixed serviceMixed;
+    private final PygalServicePureJava servicePureJava;
 
     public PygalController(
             PygalServicePurePython servicePurePython,
-            PygalServiceMixed serviceMixed
+            PygalServiceMixed serviceMixed,
+            PygalServicePureJava servicePureJava
     ) {
         this.servicePurePython = servicePurePython;
         this.serviceMixed = serviceMixed;
+        this.servicePureJava = servicePureJava;
     }
 
     @GetMapping("/purepython")
@@ -27,5 +30,10 @@ public class PygalController {
     @RequestMapping(method = GET, path = "/mixed")
     String mixed() {
         return serviceMixed.render();
+    }
+
+    @GetMapping("/purejava")
+    String pureJava() {
+        return servicePureJava.render();
     }
 }
