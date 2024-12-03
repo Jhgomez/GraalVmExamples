@@ -11,15 +11,18 @@ public class PygalController {
     PygalServicePurePython purePythonService;
     PygalServiceMixed mixedService;
     PygalServicePureJava pureJavaService;
+    PygalServiceDynamic dynamicService;
 
     public PygalController(
             PygalServicePurePython purePythonService,
             PygalServiceMixed mixedService,
-            PygalServicePureJava pureJavaService
+            PygalServicePureJava pureJavaService,
+            PygalServiceDynamic purePythonServiceDynamic
     ) {
         this.purePythonService = purePythonService;
         this.mixedService = mixedService;
         this.pureJavaService = pureJavaService;
+        this.dynamicService = purePythonServiceDynamic;
     }
 
     @GetMapping("/purepython")
@@ -35,5 +38,10 @@ public class PygalController {
     @RequestMapping(method = GET, path = "/purejava")
     String pureJava() {
         return pureJavaService.renderChart();
+    }
+
+    @RequestMapping(method = GET, path = "/dynamic")
+    String dynamic() {
+        return dynamicService.renderChart();
     }
 }
