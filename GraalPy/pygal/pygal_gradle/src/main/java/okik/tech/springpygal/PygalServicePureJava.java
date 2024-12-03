@@ -95,6 +95,6 @@ public class PygalServicePureJava implements PygalService {
 
     @Override
     public String render() {
-        return "pythonGeneratedSvg";
+        return pythonGeneratedSvg;
     }
 }
