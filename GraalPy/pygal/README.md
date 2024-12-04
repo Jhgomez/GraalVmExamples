@@ -36,6 +36,53 @@ the Python polygloth dependencies.
     }
 ```
 
+## Implementation
+
+### Create a Python Context "Wrapper"
+You can use different annotations to inject a component/bean into the application's 
+dependency graph. You have different ways to produce a bean, in the video you can see more ways. if you want to know more about how dependency injection
+works in SpringBoot, see [this video](https://www.youtube.com/watch?v=LeoCh7VK9cg) or check the [notes](../CompomentsAKABeans) I made from it. I'll show two "approaches"
+
+#### Create a Configuration Class to Create a Bean
+1. Create a class and annotate it with `@Configuration`
+
+2. In our case we need to make a class that takes a Polyglot context and wrap it inside something similar to an adapter or facade pattern class, in this case it can be a record,
+the wrapper is the class that our bean will produce
+
+3. Create a method that return the bean we want in the configuration class that,
+and annotate it with `@Bean(destroyMethod = "close")`, check the code in the class and
+observe we initialize the "python" code, this is not completaly necesary if our evaluation code
+specifies the language name but in this case we need a way to close it so we have to implicitly
+call the "close" method to avoid memory leaks, so indicate it in the annotation arguments
+
+#### "Directly" Create a Bean/Component
+1. All beans can be called components, so just basicall create the Polyglot's context wrapper class, which
+is similar to a facade or adapter pattern class
+
+2. Annotate the class with `@Component` and the method that destroys the objects that could cause memory leaks
+, if not closed correctly, with `@PreDestroy`
+
+#### Important
+Context can not process request asynchronously or in  a multithread way, so in this case we don't worry about it
+but if requests needs to be processed in parallel then you should consider creatin a context pool, however [this info](https://github.com/graalvm/graal-languages-demos/tree/main/graalpy/graalpy-native-extensions-guide#72-single-context) might
+indicate it is not a good practice
+
+### Create Services
+We have four variations of the same functionality to show case that we can move objects creation
+and logic from Python to Java and Java to Python, For that you can use these as a guide reference
+on how you can start understanding how mapping works so you can decide what approach is best or even
+combining some or all of these approaches, But first you should always read the documentation and 
+examples of the python packages, classes and properties you need to map to java, so you can understand
+what you're mapping and identify only what you need to map, . Return values and arguments are mapped according to a set of 
+[generic rules](https://www.graalvm.org/latest/reference-manual/python/Modern-Python-on-JVM/#java-to-python-types-automatic-conversion) as well as the [Target type mapping](https://www.graalvm.org/truffle/javadoc/org/graalvm/polyglot/Value.html#target-type-mapping-heading),
+basically to sum it up you have to lear how to use the `Value` class in polyglot package. Annotate the service
+class with `@Service`
+
+### Create a Controller Class
+First, annotate the class with `@RestController` or `@Controller`, this class basically maps the requests to the correct service, I think this is similar to Java Servlets, You can use
+annotations like `@GetMapping("/servicename")`, `@Get(value = "/servicename")` or `@RequestMapping(method = GET, path = "/servicename")`, you could use
+annotations like `@ExecuteOn(TaskExecutors.BLOCKING)`
+
 ## Run the application
 ```bash
 ./gradlew bootRun

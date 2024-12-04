@@ -17,5 +17,3 @@ As you can see the guide indicate the requirements are:
 
 * An IDE or text editor, I used IntelliJ IDEA 2024.3 ultimate edition here you can leverage [language injections](https://www.jetbrains.com/help/idea/using-language-injections.html#use-language-injection-comments)
 * A supported JDK, preferably the latest GraalVM JDK, I used Oracle GraalVM Java-23
-
-[Pygal documenation to XY chart](https://www.pygal.org/en/stable/documentation/types/xy.html)
