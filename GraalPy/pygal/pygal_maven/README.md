@@ -4,36 +4,60 @@ follow the documentation to generate a XY chart. [Pygal documenation to XY chart
 
 ## Project Setup
 
-1. Initialize a SpringBoot project using the [Srping Initializer](https://start.spring.io/). Select "Gradle-kotlin", language "Java"
+1. Initialize a SpringBoot project using the [Srping Initializer](https://start.spring.io/). Select "Maven", language "Java"
    I used SpringBoot version "3.4.0", Assign a Group and Artifact if you need, Add two dependencies, "GraalVM Native Support" and "Spring Web", the
    last dependency helps you create a webserver that uses the default embedded container which is Apache Tomcat.
-   Click Generate, download the project and open it. Be aware gradle wrapper will be availabe in the project's path.
+   Click Generate, download the project and open it. Be aware Maven's wrapper will be available in the project's path.
 
-2. Configure your project's gradle file, with these plugins. The `org.graalvm.python` plugin
+2. Configure your project's POM file, with these plugins. The `org.graalvm.python` plugin
    enables us to declare python packages dependencies. Also include, besides all dependencies we had included by the generator already,
-   the Python polygloth dependencies.
+   the Python polyglot dependencies.
 
 
-```bash
-    plugins {
-        id("org.graalvm.python") version "24.1.1"
-    }
-    
-    application {
-      mainClass = "okik.tech.Main"
-    }
-    
-    graalPy {
-        packages = setOf(
-            "pygal==3.0.5",
-        )
-    }
-    
-    dependencies {
-        implementation("org.graalvm.polyglot:polyglot:24.1.1")
-        implementation("org.graalvm.polyglot:python:24.1.1")
-        implementation("org.graalvm.python:python-embedding:24.1.1")
-    }
+```xml
+<project>
+<dependencies>
+   <dependency>
+      <groupId>org.graalvm.polyglot</groupId>
+      <artifactId>polyglot</artifactId>
+      <version>24.1.1</version>
+   </dependency>
+   <dependency>
+      <groupId>org.graalvm.polyglot</groupId>
+      <artifactId>python</artifactId>
+      <version>24.1.1</version>
+      <type>pom</type>
+   </dependency>
+   <dependency>
+      <groupId>org.graalvm.python</groupId>
+      <artifactId>python-embedding</artifactId>
+      <version>24.1.1</version>
+   </dependency>
+</dependencies>
+
+<build>
+   <plugins>
+      <plugin>
+         <groupId>org.graalvm.python</groupId>
+         <artifactId>graalpy-maven-plugin</artifactId>
+         <version>24.1.1</version>
+         <executions>
+            <execution>
+               <configuration>
+                  <packages>
+                     <!-- Select Python packages to install via pip. -->
+                     <package>pygal==3.0.5</package>
+                  </packages>
+               </configuration>
+               <goals>
+                  <goal>process-graalpy-resources</goal>
+               </goals>
+            </execution>
+         </executions>
+      </plugin>
+   </plugins>
+</build>
+</project>
 ```
 
 ## Implementation
@@ -85,5 +109,5 @@ annotations like `@ExecuteOn(TaskExecutors.BLOCKING)`
 
 ## Run the application
 ```bash
-./gradlew bootRun
+./mvnw spring-boot:run
 ```

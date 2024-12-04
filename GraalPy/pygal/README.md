@@ -1,89 +1,19 @@
 # Description
-This is the implementation of the project [described in the parent directory](../README.md). We will
-follow the documentation to generate a XY chart. [Pygal documenation to XY chart](https://www.pygal.org/en/stable/documentation/types/xy.html)
+This is an example that shows we can use GraalPy in Spring Boot. We're using a Python package
+called Pygal, used for generating different types of charts. We are going to generate
+SVG files that our services will return them in the form of a String that the browser can
+render. Remember SVG describe the Path of the image they represent so the image can be
+scale up or scale down without loosing resolution.
 
-## Project Setup
+This is the [original example](https://github.com/graalvm/graal-languages-demos/tree/main/graalpy/graalpy-spring-boot-pygal-charts).
+We can also check this [other example](https://github.com/graalvm/graal-languages-demos/tree/main/graalpy/graalpy-spring-boot-guide)
+that explains how to implement a service in SpringBoot that uses Graalpy, this other example
+also uses Jquery in the frontend UI to control the page's "Document Object Model(DOM)", to
+be able to modify the elements of the frontend and make an HTTP request to the backend.
 
-1. Initialize a SpringBoot project using the [Srping Initializer](https://start.spring.io/). Select "Gradle-kotlin", language "Java"
-I used SpringBoot version "3.4.0", Assign a Group and Artifact if you need, Add two dependencies, "GraalVM Native Support" and "Spring Web", the
-last dependency helps you create a webserver that uses the default embedded container which is Apache Tomcat. 
-Click Generate, download the project and open it. Be aware gradle wrapper will be availabe in the project's path.
+## Development Environment Requirements
 
-2. Configure your project's gradle file, with these plugins. The `org.graalvm.python` plugin
-   enables us to declare python packages dependencies. Also include, besides all dependencies we had included by the generator already,
-the Python polygloth dependencies.
+As you can see the guide indicate the requirements are:
 
-
-```bash
-    plugins {
-        id("org.graalvm.python") version "24.1.1"
-    }
-    
-    application {
-      mainClass = "okik.tech.Main"
-    }
-    
-    graalPy {
-        packages = setOf(
-            "pygal==3.0.5",
-        )
-    }
-    
-    dependencies {
-        implementation("org.graalvm.polyglot:polyglot:24.1.1")
-        implementation("org.graalvm.polyglot:python:24.1.1")
-        implementation("org.graalvm.python:python-embedding:24.1.1")
-    }
-```
-
-## Implementation
-
-### Create a Python Context "Wrapper"
-You can use different annotations to inject a component/bean into the application's 
-dependency graph. You have different ways to produce a bean, in the video you can see more ways. if you want to know more about how dependency injection
-works in SpringBoot, see [this video](https://www.youtube.com/watch?v=LeoCh7VK9cg) or check the [notes](../CompomentsAKABeans) I made from it. I'll show two "approaches"
-
-#### Create a Configuration Class to Create a Bean
-1. Create a class and annotate it with `@Configuration`
-
-2. In our case we need to make a class that takes a Polyglot context and wrap it inside something similar to an adapter or facade pattern class, in this case it can be a record,
-the wrapper is the class that our bean will produce
-
-3. Create a method that return the bean we want in the configuration class that,
-and annotate it with `@Bean(destroyMethod = "close")`, check the code in the class and
-observe we initialize the "python" code, this is not completaly necesary if our evaluation code
-specifies the language name but in this case we need a way to close it so we have to implicitly
-call the "close" method to avoid memory leaks, so indicate it in the annotation arguments
-
-#### "Directly" Create a Bean/Component
-1. All beans can be called components, so just basicall create the Polyglot's context wrapper class, which
-is similar to a facade or adapter pattern class
-
-2. Annotate the class with `@Component` and the method that destroys the objects that could cause memory leaks
-, if not closed correctly, with `@PreDestroy`
-
-#### Important
-Context can not process request asynchronously or in  a multithread way, so in this case we don't worry about it
-but if requests needs to be processed in parallel then you should consider creatin a context pool, however [this info](https://github.com/graalvm/graal-languages-demos/tree/main/graalpy/graalpy-native-extensions-guide#72-single-context) might
-indicate it is not a good practice
-
-### Create Services
-We have four variations of the same functionality to show case that we can move objects creation
-and logic from Python to Java and Java to Python, For that you can use these as a guide reference
-on how you can start understanding how mapping works so you can decide what approach is best or even
-combining some or all of these approaches, But first you should always read the documentation and 
-examples of the python packages, classes and properties you need to map to java, so you can understand
-what you're mapping and identify only what you need to map, . Return values and arguments are mapped according to a set of 
-[generic rules](https://www.graalvm.org/latest/reference-manual/python/Modern-Python-on-JVM/#java-to-python-types-automatic-conversion) as well as the [Target type mapping](https://www.graalvm.org/truffle/javadoc/org/graalvm/polyglot/Value.html#target-type-mapping-heading),
-basically to sum it up you have to lear how to use the `Value` class in polyglot package. Annotate the service
-class with `@Service`
-
-### Create a Controller Class
-First, annotate the class with `@RestController` or `@Controller`, this class basically maps the requests to the correct service, I think this is similar to Java Servlets, You can use
-annotations like `@GetMapping("/servicename")`, `@Get(value = "/servicename")` or `@RequestMapping(method = GET, path = "/servicename")`, you could use
-annotations like `@ExecuteOn(TaskExecutors.BLOCKING)`
-
-## Run the application
-```bash
-./gradlew bootRun
-```
+* An IDE or text editor, I used IntelliJ IDEA 2024.3 ultimate edition here you can leverage [language injections](https://www.jetbrains.com/help/idea/using-language-injections.html#use-language-injection-comments)
+* A supported JDK, preferably the latest GraalVM JDK, I used Oracle GraalVM Java-23
