@@ -18,7 +18,7 @@ this is expressed in the form of a method inside the last interface that returns
 As you can see the guide indicate the requirements are:
 
 * An IDE or text editor, I used IntelliJ IDEA 2024.3 ultimate edition here you can leverage [language injections](https://www.jetbrains.com/help/idea/using-language-injections.html#use-language-injection-comments)
-* A supported JDK, preferably the latest GraalVM JDK, I used Oracle GraalVM Java-21
+* A supported JDK, preferably the latest GraalVM JDK, I used Oracle GraalVM Java-23
 * a C compiler toolchain (e.g., GCC, Cargo)
 
 ## Development Environment Setup
