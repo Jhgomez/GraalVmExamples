@@ -1,4 +1,4 @@
-package org.openjfx;
+package okik.tech;
 
 public class SystemInfo {
 
