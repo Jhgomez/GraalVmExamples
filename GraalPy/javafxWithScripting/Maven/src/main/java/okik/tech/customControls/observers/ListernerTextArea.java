@@ -1,10 +1,10 @@
 package okik.tech.customControls.observers;
 
-import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 
-public class ListernerLabel extends Label implements Observer {
+public class ListernerTextArea extends TextArea implements Observer {
 
-    public ListernerLabel(String text) {
+    public ListernerTextArea(String text) {
         super(text);
     }
 
