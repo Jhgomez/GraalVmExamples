@@ -2,22 +2,45 @@ package okik.tech;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import okik.tech.customControls.observables.ObservableStringBuilder;
+import okik.tech.customControls.observers.ListernerTextArea;
 
-/**
- * JavaFX App
- */
 public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        var javaVersion = SystemInfo.javaVersion();
-        var javafxVersion = SystemInfo.javafxVersion();
 
-        var label = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-        var scene = new Scene(new StackPane(label), 640, 480);
+        var consoleLog = new ObservableStringBuilder("""
+                This is a demo console using JavaFx and Graalpy
+                
+                Things to try:
+                - `books`
+                - `dir(books.getLast())`
+                - `add_book("29874", "Design Patterns", "Eric Freeman & Elizabeth Freeman", "educational", 1)`
+                - `sys.exit(0)` or `os.listdir()`
+                - `stage`
+                - `animate()` or `move()`
+                
+                """);
+
+        var console = new ListernerTextArea(consoleLog.toString());
+        console.setEditable(false);
+
+        consoleLog.registerObserver(console);
+
+        var inputArea = new TextArea();
+        inputArea.setPrefRowCount(2);
+
+        var vBox = new VBox(console, inputArea);
+        VBox.setVgrow(console, Priority.ALWAYS);
+
+        var scene = new Scene(vBox, 640, 420);
+
+        stage.setTitle("GraalPy Console");
         stage.setScene(scene);
         stage.show();
     }
