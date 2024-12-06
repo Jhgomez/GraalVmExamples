@@ -102,6 +102,27 @@ public class App extends Application {
         timeline.play();
     }
 
+    private void move(Stage stage) {
+        double x = stage.getX();
+        double y = stage.getY();
+
+        AtomicInteger count = new AtomicInteger();
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(40), _ -> {
+                    int c = count.getAndIncrement();
+                    var vX = x +  c * 10;
+                    var vY = y + 50 * Math.sin(c / 2.0);
+
+                    stage.setX(vX);
+                    stage.setY(vY);
+
+                })
+        );
+
+        timeline.setCycleCount(50);
+        timeline.play();
+    }
+
     public static void main(String[] args) {
         launch();
     }
