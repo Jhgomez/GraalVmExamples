@@ -3,6 +3,7 @@ package okik.tech;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -14,7 +15,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
 
-        var consoleLog = new ObservableStringBuilder("""
+        var consoleLog = """
                 This is a demo console using JavaFx and Graalpy
                 
                 Things to try:
@@ -25,15 +26,22 @@ public class App extends Application {
                 - `stage`
                 - `animate()` or `move()`
                 
-                """);
+                """;
 
-        var console = new ListernerTextArea(consoleLog.toString());
+        var console = new TextArea(consoleLog);
         console.setEditable(false);
-
-        consoleLog.registerObserver(console);
 
         var inputArea = new TextArea();
         inputArea.setPrefRowCount(2);
+
+        inputArea.setOnKeyPressed((event) -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                console.appendText("> ");
+                console.appendText(inputArea.getText());
+
+                inputArea.clear();
+            }
+        });
 
         var vBox = new VBox(console, inputArea);
         VBox.setVgrow(console, Priority.ALWAYS);
