@@ -89,11 +89,11 @@ public class App extends Application {
                             x = stage.getX()
                             global y
                             y = stage.getY()
-                            timeline = Timeline(KeyFrame(Duration.millis(40), lambda a:_animateCallback(atomic)))
+                            timeline = Timeline(KeyFrame(Duration.millis(40), lambda a: animateCallback(atomic)))
                             timeline.setCycleCount(50)
                             timeline.play()
                         
-                        def _animateCallback(c):
+                        def animateCallback(c):
                             c = c.getAndIncrement()
                             if (c == 49):
                                 stage.setX(x)
@@ -104,6 +104,24 @@ public class App extends Application {
     
                                 stage.setX(vX)
                                 stage.setY(vY)
+                        
+                        def move():
+                            atomic = AtomicInteger()
+                            global x
+                            x = stage.getX()
+                            global y
+                            y = stage.getY()
+                            timeline = Timeline(KeyFrame(Duration.millis(40), lambda a: moveCallback(atomic)))
+                            timeline.setCycleCount(50)
+                            timeline.play()
+                        
+                        def moveCallback(c):
+                            c = c.getAndIncrement();
+                            vX = x +  c * 10;
+                            vY = y + 50 * math.sin(c / 2.0);
+    
+                            stage.setX(vX);
+                            stage.setY(vY);
                         """);
 
         inputArea.setOnKeyPressed((event) -> {
